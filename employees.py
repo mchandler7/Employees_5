@@ -47,24 +47,117 @@ class Employee(ABC):
         self.performance = INITIAL_PERFORMANCE
         self.happiness = INITIAL_HAPPINESS
         self.salary = salary
-
-
+    @property
+    def name(self):
+        """
+        Property that gives access to the read-only name attribute.
+        """
+        return self.__name
+    @property
+    def manager(self):
+        return self.__manager
+    @property
+    def performance(self):
+        return self.__performance
+    @property
+    def happiness(self):
+        return self.__happiness
+    @property
+    def salary(self):
+        return self.__salary
+    @performance.setter
+    def performance(self,new_performance):
+        if PERCENTAGE_MIN <= new_performance <= PERCENTAGE_MAX:
+            self.__performance = new_performance
+        elif new_performance < PERCENTAGE_MIN:
+            self.__performance = 0
+        elif new_performance > PERCENTAGE_MAX:
+            self.__performance = 100
+    @happiness.setter
+    def happiness(self, new_happiness):
+        if PERCENTAGE_MIN <= new_happiness <= PERCENTAGE_MAX:
+            self.__happiness = new_happiness
+        elif new_happiness < PERCENTAGE_MIN:
+            self.__happiness = 0
+        elif new_happiness > PERCENTAGE_MAX:
+            self.__happiness = 100
+    @salary.setter
+    def salary(self, new_salary):
+        if new_salary >= 0:
+            self.__salary = new_salary
+        else:
+            raise ValueError(SALARY_ERROR_MESSAGE)
+    @abstractmethod
+    def work(self):
+        pass
+    def interact(self, other):
+        if other.name not in self.relationships:
+            self.relationships[other.name] = 0
+        if self.relationships[other.name] > RELATIONSHIP_THRESHOLD:
+            self.happiness += 1
+        elif self.happiness >= HAPPINESS_THRESHOLD and other.happiness >= HAPPINESS_THRESHOLD:
+            self.relationships[other.name] += 1
+        else:
+            self.relationships[other.name] -= 1
+            self.happiness -= 1
+    def daily_expense(self):
+        self.happiness -= 1
+        self.savings -= DAILY_EXPENSE
+    def __str__(self):
+        return f'{self.name}\n\tSalary: ${self.salary}\n\tSavings: ${self.savings}\n\tHappiness: {self.happiness/100:.0%}\n\tPerformance: {self.performance/100:.0%}' 
 # TODO: implement this class. You may delete this comment when you are done.
 class Manager(Employee):
     """
     A subclass of Employee representing a manager.
     """
+    def work(self):
+        change = random.randint(-5,5)
+        self.performance += change
+        if change <= 0:
+            self.happiness -= 1
+            for person in self.relationships:
+                self.relationships[person] -= 1
 
+        else:
+            self.happiness += 1
 
 # TODO: implement this class. You may delete this comment when you are done.
 class TemporaryEmployee(Employee):
     """
     A subclass of Employee representing a temporary employee.
     """
-
+    def work(self):
+        change = random.randint(-15,15)
+        self.performance += change
+        if change <= 0:
+            self.happiness -= 2
+        else:
+            self.happiness += 1
+    def interact(self, other):
+        super().interact(other)
+        if isinstance(other, Manager) and self.manager == other:
+            if other.happiness > HAPPINESS_THRESHOLD and self.performance >= TEMP_EMPLOYEE_PERFORMANCE_THRESHOLD:
+                self.savings += MANAGER_BONUS
+            elif other.happiness <= HAPPINESS_THRESHOLD:
+                self.salary //= 2
+                self.happiness -= 5
+            if self.salary == 0:
+                self.is_employed = False
 
 # TODO: implement this class. You may delete this comment when you are done.
 class PermanentEmployee(Employee):
     """
     A subclass of Employee representing a permanent employee.
     """
+    def work(self):
+        change = random.randint(-10,10)
+        self.performance += change
+        if change >= 0:
+            self.happiness += 1
+    def interact(self, other):
+        super().interact(other)
+        if isinstance(other, Manager) and self.manager == other:
+            if other.happiness > HAPPINESS_THRESHOLD and self.performance >= PERM_EMPLOYEE_PERFORMANCE_THRESHOLD:
+                self.savings += MANAGER_BONUS
+            elif other.happiness <= HAPPINESS_THRESHOLD:
+                self.happiness -= 1
