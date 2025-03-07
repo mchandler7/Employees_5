@@ -125,8 +125,8 @@ class Employee(ABC):
         self.happiness -= 1
         self.savings -= DAILY_EXPENSE
     def __str__(self):
-        return f'{self.name}\n\tSalary: ${self.salary}\n\tSavings: ${self.savings}\n\tHappiness: {self.happiness/100:.0%}\n\tPerformance: {self.performance/100:.0%}'
-        #line split^
+        first_half = f'{self.name}\n\tSalary: ${self.salary}\n\tSavings: ${self.savings}\n\tHappiness:'
+        return f'{first_half} {self.happiness/100:.0%}\n\tPerformance: {self.performance/100:.0%}'
 
 class Manager(Employee):
     """
@@ -158,9 +158,9 @@ class TemporaryEmployee(Employee):
     def interact(self, other):
         super().interact(other)
         if isinstance(other, Manager) and self.manager == other:
-            if other.happiness > HAPPINESS_THRESHOLD and self.performance >= TEMP_EMPLOYEE_PERFORMANCE_THRESHOLD:
-                #line split^
-                self.savings += MANAGER_BONUS
+            if other.happiness > HAPPINESS_THRESHOLD:
+                if self.performance >= TEMP_EMPLOYEE_PERFORMANCE_THRESHOLD:
+                    self.savings += MANAGER_BONUS
             elif other.happiness <= HAPPINESS_THRESHOLD:
                 self.salary //= 2
                 self.happiness -= 5
@@ -180,8 +180,8 @@ class PermanentEmployee(Employee):
     def interact(self, other):
         super().interact(other)
         if isinstance(other, Manager) and self.manager == other:
-            if other.happiness > HAPPINESS_THRESHOLD and self.performance >= PERM_EMPLOYEE_PERFORMANCE_THRESHOLD:
-                #split line^
-                self.savings += MANAGER_BONUS
+            if other.happiness > HAPPINESS_THRESHOLD:
+                if self.performance >= PERM_EMPLOYEE_PERFORMANCE_THRESHOLD:
+                    self.savings += MANAGER_BONUS
             elif other.happiness <= HAPPINESS_THRESHOLD:
                 self.happiness -= 1
