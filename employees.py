@@ -101,7 +101,6 @@ class Employee(ABC):
             raise ValueError(SALARY_ERROR_MESSAGE)
     @abstractmethod
     def work(self):
-        pass
         """
         Abstract method for employee indicating work
         """
