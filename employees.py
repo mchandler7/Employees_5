@@ -101,8 +101,14 @@ class Employee(ABC):
             raise ValueError(SALARY_ERROR_MESSAGE)
     @abstractmethod
     def work(self):
+        """
+        Abstract method for employee indicating work
+        """
         pass
     def interact(self, other):
+        """
+        Initiates the relationship initially or increases or decreases the relationship value
+        """
         if other.name not in self.relationships:
             self.relationships[other.name] = 0
         if self.relationships[other.name] > RELATIONSHIP_THRESHOLD:
@@ -113,6 +119,9 @@ class Employee(ABC):
             self.relationships[other.name] -= 1
             self.happiness -= 1
     def daily_expense(self):
+        """
+        Reduces happiness by one and reduces savings by daily expenses
+        """
         self.happiness -= 1
         self.savings -= DAILY_EXPENSE
     def __str__(self):
