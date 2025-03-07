@@ -32,7 +32,7 @@ PERCENTAGE_MIN = 0
 SALARY_ERROR_MESSAGE = "Salary must be non-negative."
 
 
-# TODO: implement this class. You may delete this comment when you are done.
+
 class Employee(ABC):
     """
     Abstract base class representing a generic employee in the system.
@@ -104,8 +104,9 @@ class Employee(ABC):
         self.happiness -= 1
         self.savings -= DAILY_EXPENSE
     def __str__(self):
-        return f'{self.name}\n\tSalary: ${self.salary}\n\tSavings: ${self.savings}\n\tHappiness: {self.happiness/100:.0%}\n\tPerformance: {self.performance/100:.0%}' 
-# TODO: implement this class. You may delete this comment when you are done.
+        return f'{self.name}\n\tSalary: ${self.salary}\n\tSavings: ${self.savings}\n\tHappiness: {self.happiness/100:.0%}\n\tPerformance: {self.performance/100:.0%}'
+
+
 class Manager(Employee):
     """
     A subclass of Employee representing a manager.
@@ -121,7 +122,7 @@ class Manager(Employee):
         else:
             self.happiness += 1
 
-# TODO: implement this class. You may delete this comment when you are done.
+
 class TemporaryEmployee(Employee):
     """
     A subclass of Employee representing a temporary employee.
@@ -144,7 +145,7 @@ class TemporaryEmployee(Employee):
             if self.salary == 0:
                 self.is_employed = False
 
-# TODO: implement this class. You may delete this comment when you are done.
+
 class PermanentEmployee(Employee):
     """
     A subclass of Employee representing a permanent employee.
