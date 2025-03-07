@@ -55,15 +55,27 @@ class Employee(ABC):
         return self.__name
     @property
     def manager(self):
+        """
+        Returns read-only attribute for manager.
+        """
         return self.__manager
     @property
     def performance(self):
+        """
+        Returns read-only attribute for performance.
+        """
         return self.__performance
     @property
     def happiness(self):
+        """
+        Returns read-only attribute for happiness.
+        """
         return self.__happiness
     @property
     def salary(self):
+        """
+        Returns read-only attribute for salary.
+        """
         return self.__salary
     @performance.setter
     def performance(self,new_performance):
