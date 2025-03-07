@@ -101,10 +101,11 @@ class Employee(ABC):
             raise ValueError(SALARY_ERROR_MESSAGE)
     @abstractmethod
     def work(self):
+        pass
         """
         Abstract method for employee indicating work
         """
-        pass
+        #pass
     def interact(self, other):
         """
         Initiates the relationship initially or increases or decreases the relationship value
