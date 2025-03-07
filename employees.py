@@ -125,8 +125,8 @@ class Employee(ABC):
         self.happiness -= 1
         self.savings -= DAILY_EXPENSE
     def __str__(self):
-        first_half = f'{self.name}\n\tSalary: ${self.salary}\n\tSavings: ${self.savings}\n\tHappiness:'
-        return f'{first_half} {self.happiness/100:.0%}\n\tPerformance: {self.performance/100:.0%}'
+        f_half = f'{self.name}\n\tSalary: ${self.salary}\n\tSavings: ${self.savings}\n\tHappiness:'
+        return f'{f_half} {self.happiness/100:.0%}\n\tPerformance: {self.performance/100:.0%}'
 
 class Manager(Employee):
     """
